@@ -1,12 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import './App.css';
 
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state ={
       locationName:'',
-      dataOfobject:{}
+      dataOfobject:{},
+      locationMap:false
 
 
     }
@@ -21,25 +23,27 @@ class App extends React.Component {
        let allData =await axios.get(url);
        console.log(allData)
   this.setState({
-    dataOfobject: allData.data[0]
+    dataOfobject: allData.data[0],
+    locationMap: true
   })     
   }
   render() {
     return ( 
-    <div>
+    <div className='App-div'>
 <h2> City Explorer</h2>
 
-<form onSubmit={this.showLocation}>
-  <input type='text' placeholder='Name of City' name='location' ></input>
-  <input type='submit' value='Explore!'/>
+<form onSubmit={this.showLocation} >
+  <input type='text' placeholder='Name of City' name='location' ></input><br></br>
+  <input type='submit' value='Explore!' className='App-submit'/>
 </form>
 <p> City Data :</p>
 <p> 1. City Name : {this.state.dataOfobject.display_name}</p>
 <p> 2. City lat :{this.state.dataOfobject.lat} </p>
 <p> 3. City lon :{this.state.dataOfobject.lon} </p>
-
-
-
+<p> 4. city map :
+{this.state.locationMap && 
+        <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.dataOfobject.lat},${this.state.dataOfobject.lon}&zoom=18`} className='map-imge' />
+  }</p>
 </div>
     )
   }
