@@ -8,7 +8,8 @@ class App extends React.Component {
     this.state ={
       locationName:'',
       dataOfobject:{},
-      locationMap:false
+      locationMap:false,
+      showError: false
 
 
     }
@@ -20,12 +21,19 @@ class App extends React.Component {
     })
 
     let url =`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&city=${this.state.locationName}&format=json`
-       let allData =await axios.get(url);
+       
+    try{
+          let allData =await axios.get(url);
        console.log(allData)
   this.setState({
     dataOfobject: allData.data[0],
     locationMap: true
-  })     
+  }) 
+}catch{
+this.setState({
+  showError: true
+})
+}    
   }
   render() {
     return ( 
@@ -44,6 +52,8 @@ class App extends React.Component {
 {this.state.locationMap && 
         <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.dataOfobject.lat},${this.state.dataOfobject.lon}&zoom=18`} className='map-imge' />
   }</p>
+
+  {this.state.showError && <p> your data is wrong</p>}
 </div>
     )
   }
