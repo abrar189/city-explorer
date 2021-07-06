@@ -14,6 +14,8 @@ class App extends React.Component {
       showError: false,
       showWeatherData: false,
       weatherData: [],
+      movieData: [],
+      showMovieData: false
 
 
 
@@ -35,7 +37,8 @@ class App extends React.Component {
         dataOfobject: allData.data[0],
         locationMap: true
       })
-      this.resWeather();
+      this.getDataWeather();
+      this.getDatamovie();
     } catch {
       this.setState({
         showError: true
@@ -43,14 +46,31 @@ class App extends React.Component {
     }
   }
 
-  resWeather = async () => {
+  getDataWeather = async () => {
 
-    // let url = `${process.env.REACT_APP_SERVER}/getWeatherInfo?cityName=${this.state.locationName.charAt(0).toUpperCase()+this.state.locationName.slice(1)}`
+    // let url = `${process.env.REACT_APP_SERVER}/weather?cityName=${this.state.locationName.charAt(0).toUpperCase()+this.state.locationName.slice(1)}`
     try {
-      let weatherdata = await axios.get(`${process.env.REACT_APP_SERVER}/getWeatherInfo?cityName=${this.state.locationName.charAt(0).toUpperCase() + this.state.locationName.slice(1)}`);
-       this.setState({
+      let weatherdata = await axios.get(`${process.env.REACT_APP_SERVER}/weather?cityName=${this.state.locationName.charAt(0).toUpperCase() + this.state.locationName.slice(1)}`);
+      this.setState({
         weatherData: weatherdata.data,
         showWeatherData: true
+      })
+    }
+    catch {
+      this.setState({
+        showError: true
+      })
+    }
+  }
+
+  getDatamovie = async () => {
+
+    // let url = `${process.env.REACT_APP_SERVER}/movie?cityName=${this.state.locationName.charAt(0).toUpperCase()+this.state.locationName.slice(1)}`
+    try {
+      let moviedata = await axios.get(`${process.env.REACT_APP_SERVER}/movie?cityName=${this.state.locationName.charAt(0).toUpperCase() + this.state.locationName.slice(1)}`);
+      this.setState({
+        movieData: moviedata.data,
+        showMovieData: true
       })
     }
     catch {
@@ -80,16 +100,39 @@ class App extends React.Component {
         {this.state.showError && <p> your data is wrong</p>}
 
         {this.state.weatherData.map((value, index) => (
-          <ul key={index}> 
-          <li>
-          {value.date} 
-          </li>
-          <li>
-          {value.description}
-          </li>
-        </ul>
-          ))}
-               
+          <ul key={index}>
+            <li>
+              {value.date}
+            </li>
+            <li>
+              {value.description}
+            </li>
+          </ul>
+        ))}
+
+        {this.state.movieData.map((value, index) => (
+          <ul key={index}>
+            <li>
+              Movie Title : {value.title}
+            </li>
+            <li>
+              Movie overview :{value.overview}
+            </li>
+            <li>
+              Averge Votes :{value.average_votes}
+            </li><li>
+              Total Votes :{value.total_votes}
+            </li><li>
+              Image : <img src={value.image_url} alt=''></img>
+            </li><li>
+              Popularity : {value.popularity}
+            </li><li>
+              Released Date :{value.released_on}
+            </li>
+          </ul>
+        ))}
+
+
       </div>
     )
   }
