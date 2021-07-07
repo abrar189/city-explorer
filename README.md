@@ -50,6 +50,16 @@ Finish time: 7pm
 
 Actual time needed to complete: 4hr
 
+Name of feature: Refactoring into Modules
+
+Estimate of time needed to complete: 1hr
+
+Start time: 2:30pm
+
+Finish time: 3pm
+
+Actual time needed to complete: 30 minute
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
