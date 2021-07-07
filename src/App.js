@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-
+import Weather from './components/weather';
+import Movie from './components/movie';
 
 import './App.css';
 
@@ -99,39 +100,8 @@ class App extends React.Component {
 
         {this.state.showError && <p> your data is wrong</p>}
 
-        {this.state.weatherData.map((value, index) => (
-          <ul key={index}>
-            <li>
-              {value.date}
-            </li>
-            <li>
-              {value.description}
-            </li>
-          </ul>
-        ))}
-
-        {this.state.movieData.map((value, index) => (
-          <ul key={index}>
-            <li>
-              Movie Title : {value.title}
-            </li>
-            <li>
-              Movie overview :{value.overview}
-            </li>
-            <li>
-              Averge Votes :{value.average_votes}
-            </li><li>
-              Total Votes :{value.total_votes}
-            </li><li>
-              Image : <img src={value.image_url} alt=''></img>
-            </li><li>
-              Popularity : {value.popularity}
-            </li><li>
-              Released Date :{value.released_on}
-            </li>
-          </ul>
-        ))}
-
+        <Weather weatherData={this.state.weatherData} />
+        <Movie movieData={this.state.movieData} />
 
       </div>
     )
